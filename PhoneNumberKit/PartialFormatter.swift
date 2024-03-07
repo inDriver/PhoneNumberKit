@@ -272,7 +272,10 @@ public final class PartialFormatter {
             potentialCountryCode != 0 {
             processedNumber = numberWithoutCountryCallingCode
             if potentialCountryCode != currentMetadata?.countryCode {
-                self.currentMetadata = self.metadataManager?.mainTerritory(forCode: potentialCountryCode)
+                self.currentMetadata = extractRegion(
+                    of: numberWithoutCountryCallingCode,
+                    countryCode: potentialCountryCode
+                )
             }
             let potentialCountryCodeString = String(potentialCountryCode)
             prefixBeforeNationalNumber.append(potentialCountryCodeString)
@@ -283,6 +286,17 @@ public final class PartialFormatter {
             self.prefixBeforeNationalNumber.append(" ")
         }
         return processedNumber
+    }
+    
+    private func extractRegion(of nationalNumber: String, countryCode: UInt64) -> MetadataTerritory? {
+        let region =  UInt64(nationalNumber).flatMap {
+            phoneNumberKit.parseManager.getRegion(
+                of: $0,
+                countryCode: countryCode,
+                leadingZero: nationalNumber.hasPrefix("0")
+            )
+        }
+        return region ?? self.metadataManager?.mainTerritory(forCode: countryCode)
     }
 
     func splitNumberAndPausesOrWaits(_ rawNumber: String) -> (number: String, pausesOrWaits: String) {
