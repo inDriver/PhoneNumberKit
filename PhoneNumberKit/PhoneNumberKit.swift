@@ -351,13 +351,13 @@ public extension PhoneNumberKit {
     /// Configuration for the CountryCodePicker presented from PhoneNumberTextField if `withDefaultPickerUI` is `true`
     enum CountryCodePicker {
         /// Common Country Codes are shown below the Current section in the CountryCodePicker by default
-        public static var commonCountryCodes: [String] = []
+        nonisolated(unsafe) public static var commonCountryCodes: [String] = []
 
         /// When the Picker is shown from the textfield it is presented modally
-        public static var forceModalPresentation: Bool = false
+        nonisolated(unsafe) public static var forceModalPresentation: Bool = false
 
         /// Set the search bar of the Picker to always visible
-        public static var alwaysShowsSearchBar: Bool = false
+        nonisolated(unsafe) public static var alwaysShowsSearchBar: Bool = false
     }
 }
 #endif

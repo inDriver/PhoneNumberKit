@@ -8,7 +8,7 @@ private class CurrentBundleFinder { }
 // Bundle.module accessor.
 //
 extension Bundle {
-    static var phoneNumberKit: Bundle = {
+    nonisolated(unsafe) static var phoneNumberKit: Bundle = {
         #if DEBUG && SWIFT_PACKAGE
         let bundleName = "PhoneNumberKit_PhoneNumberKit"
         let candidates = [

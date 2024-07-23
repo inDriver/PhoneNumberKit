@@ -9,33 +9,33 @@
 import Foundation
 
 /// The strategy used to decode a `PhoneNumber` value.
-public enum PhoneNumberDecodingStrategy {
+public enum PhoneNumberDecodingStrategy: Sendable {
     /// Decode `PhoneNumber` properties as key-value pairs. This is the default strategy.
     case properties
     /// Decode `PhoneNumber` as a E164 formatted string.
     case e164
     /// The default `PhoneNumber` encoding strategy.
-    public static var `default` = properties
+    public static let `default` = properties
 }
 
 /// The strategy used to encode a `PhoneNumber` value.
-public enum PhoneNumberEncodingStrategy {
+public enum PhoneNumberEncodingStrategy: Sendable {
     /// Encode `PhoneNumber` properties as key-value pairs. This is the default strategy.
     case properties
     /// Encode `PhoneNumber` as a E164 formatted string.
     case e164
     /// The default `PhoneNumber` encoding strategy.
-    public static var `default` = properties
+    public static let `default` = properties
 }
 
-public enum PhoneNumberDecodingUtils {
+public enum PhoneNumberDecodingUtils: Sendable {
     /// The default `PhoneNumberKit` instance used for parsing when decoding, if needed.
-    public static var defaultPhoneNumberKit: () -> PhoneNumberKit = { .init() }
+    public static let defaultPhoneNumberKit: @Sendable () -> PhoneNumberKit = { .init() }
 }
 
-public enum PhoneNumberEncodingUtils {
+public enum PhoneNumberEncodingUtils: Sendable {
     /// The default `PhoneNumberKit` instance used for formatting when encoding, if needed.
-    public static var defaultPhoneNumberKit: () -> PhoneNumberKit = { .init() }
+    public static let defaultPhoneNumberKit: @Sendable () -> PhoneNumberKit = { .init() }
 }
 
 public extension JSONDecoder {

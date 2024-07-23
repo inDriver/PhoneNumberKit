@@ -9,7 +9,7 @@
 import Foundation
 
 /// Manager for parsing flow.
-final class ParseManager {
+final class ParseManager: @unchecked Sendable {
     weak var metadataManager: MetadataManager?
     let parser: PhoneNumberParser
     weak var regexManager: RegexManager?
@@ -102,9 +102,10 @@ final class ParseManager {
     /// - parameter ignoreType: Avoids number type checking for faster performance.
     /// - Returns: An array of valid PhoneNumber objects.
     func parseMultiple(_ numberStrings: [String], withRegion region: String, ignoreType: Bool, shouldReturnFailedEmptyNumbers: Bool = false) -> [PhoneNumber] {
-        var hasError = false
+        nonisolated(unsafe) var hasError = false
 
         var multiParseArray = [PhoneNumber](unsafeUninitializedCapacity: numberStrings.count) { buffer, initializedCount in
+            let buffer = buffer
             DispatchQueue.concurrentPerform(iterations: numberStrings.count) { index in
                 let numberString = numberStrings[index]
                 do {
@@ -198,3 +199,5 @@ final class ParseManager {
         return PhoneNumber(numberString: numberString, countryCode: countryCode, leadingZero: leadingZero, nationalNumber: finalNationalNumber, numberExtension: numberExtension, type: type, regionID: regionMetadata.codeID)
     }
 }
+
+extension UnsafeMutableBufferPointer: @unchecked @retroactive Sendable {}
